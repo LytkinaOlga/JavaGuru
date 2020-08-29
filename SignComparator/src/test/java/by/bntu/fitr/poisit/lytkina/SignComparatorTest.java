@@ -28,6 +28,5 @@ public class SignComparatorTest extends TestCase {
         String expected = "Number is equal to zero";
         String actual = signComparator.compare(0);
         assertEquals(expected, actual);
-
     }
 }
