@@ -47,12 +47,12 @@ public class ArrayServiceTest {
     public void testSum() {
         ArrayService arrayService = new ArrayService();
 
-        assertEquals(97, arrayService.sum(myArray));
+        assertEquals(91, arrayService.sum(myArray));
     }
     @Test
     public void testAvg() {
         ArrayService arrayService = new ArrayService();
-        assertEquals(19.4, arrayService.avg(myArray), 0);
+        assertEquals(18.2, arrayService.avg(myArray), 0);
     }
 
     @Test
