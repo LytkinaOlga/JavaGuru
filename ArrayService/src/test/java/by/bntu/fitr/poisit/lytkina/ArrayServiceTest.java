@@ -13,7 +13,11 @@ public class ArrayServiceTest extends TestCase {
 
     public void testCreate() {
         ArrayService arrayService = new ArrayService();
-        arrayService.create(5);
+        int[] array = arrayService.create(5);
+
+        int expected = 5;
+        int actual = array.length;
+        assertEquals(expected, actual);
     }
 
     public void testFillRandomly() {
