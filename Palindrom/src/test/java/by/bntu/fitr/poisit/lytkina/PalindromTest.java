@@ -41,5 +41,6 @@ public class PalindromTest {
         Palindrom palindrom = new Palindrom();
         String text = "Le,VEl";
         assertEquals("LeVEl", palindrom.removeGarbage(text));
+        
     }
 }
