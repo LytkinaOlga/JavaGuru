@@ -18,4 +18,28 @@ public class PalindromTest {
         assertEquals(expected, actual);
 
     }
+
+    @Test
+    public void removeCharFromStr() {
+        Palindrom palindrom = new Palindrom();
+        String text = "Le,VEl";
+        String expected = "LeVEl";
+        String actual = palindrom.removeCharFromStr(text, 2);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void toLowerCase() {
+        Palindrom palindrom = new Palindrom();
+        String text = "LeVEl";
+
+        assertEquals("level", palindrom.toLowerCase(text));
+    }
+
+    @Test
+    public void removeGarbage() {
+        Palindrom palindrom = new Palindrom();
+        String text = "Le,VEl";
+        assertEquals("LeVEl", palindrom.removeGarbage(text));
+    }
 }
