@@ -1,8 +1,5 @@
 package by.bntu.fitr.poisit.lytkina;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class Copy {
     public int copyInRangeReturnNewArrayLength(int[] array, int leftBound, int rightBound){
 
