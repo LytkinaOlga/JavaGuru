@@ -14,14 +14,14 @@ public class NumberServiceTest {
         assertEquals(expected, actual);
     }
     @Test
-    public void rangeSumWrongOrder() {
+    public void rangeEvenCountOrder() {
         NumberService numberService = new NumberService();
         int expected = 9;
-        int actual = numberService.rangeSum(4, 2);
+        int actual = numberService.rangeEvenCount(4, 2);
         assertEquals(expected, actual);
     }
     @Test
-    public void rangeSumWithEqualNumbers() {
+    public void rangeSumReturnZero() {
         NumberService numberService = new NumberService();
         int expected = 0;
         int actual = numberService.rangeSum(4, 4);
