@@ -28,6 +28,7 @@ public class AnimalDemoTest {
         Cat cat = new Cat(2, true, "white", "Olya");
         String expected = "Cat{name='Olya', countOfLegs=2, canSwim=true, color='white'}";
         String actual = cat.toString();
+        assertEquals(expected, actual);
     }
     @Test
     public void testCatMethods(){

@@ -8,7 +8,7 @@ public abstract class Bird extends Animal{
         this.countOfLegs = 2;
         this.beakColor = beakColor;
     }
-
+    
     public String fly(){
         return "I am flying";
     }
