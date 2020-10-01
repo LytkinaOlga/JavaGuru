@@ -4,38 +4,38 @@ import by.bntu.fitr.poisit.lytkina.App;
 import by.bntu.fitr.poisit.lytkina.bean.Product;
 import by.bntu.fitr.poisit.lytkina.exceptions.ProductAccountingSystemException;
 import by.bntu.fitr.poisit.lytkina.interfaces.ProductServiceI;
-import org.junit.platform.commons.PreconditionViolationException;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ProductService implements ProductServiceI {
-    private List<Product> productList;
+
+    private ArrayList<Product> products;
     private static Long INCREMENT_ID = 0L;
 
     public ProductService() {
-        productList = new ArrayList<>();
+        this.products = new ArrayList<Product>();
     }
 
     @Override
     public void addProduct(Product product) {
 
         product.setId(INCREMENT_ID);
-        productList.add(product);
+        products.add(product);
         INCREMENT_ID++;
     }
 
     @Override
     public Product findProductById(Long id) {
         boolean flag = true;
-        for (Product product:productList) {
+        for (Product product:products) {
             if (product.getId() == id){
                 flag = true;
                 return product;
             }
             else flag = false;
         }
-        if (flag = false){
+        if (!flag){
             throw new ProductAccountingSystemException("Product not found");
         }
         return null;
@@ -43,18 +43,41 @@ public class ProductService implements ProductServiceI {
 
     @Override
     public void getAllProducts() {
-        for (Product product:productList ) {
+        for (Product product:products ) {
             App.log.info("{}", product);
         }
     }
 
     @Override
-    public void deleteProductById() {
-
+    public void deleteProductById(Long id) {
+        boolean flag = true;
+        for (Product product:products) {
+            if (product.getId() == id){
+                flag = true;
+                products.remove(product);
+                break;
+            }
+            else flag = false;
+        }
+        if (!flag){
+            throw new ProductAccountingSystemException("Id not found");
+        }
     }
 
     @Override
     public long sizeOfProductList() {
-        return productList.size();
+        return products.size();
+    }
+
+    public boolean checkListIsEmpty(){
+        return products.isEmpty();
+    }
+
+    public BigDecimal calculatePriceWithDiscount(BigDecimal price, BigDecimal discount){
+        if (discount.equals(0)){
+            return price;
+        }else {
+            return price.subtract(price.multiply(discount.divide(BigDecimal.valueOf(100L))));
+        }
     }
 }

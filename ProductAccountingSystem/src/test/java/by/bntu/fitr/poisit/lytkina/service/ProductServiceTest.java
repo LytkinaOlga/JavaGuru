@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.PatternSyntaxException;
 
 import static org.junit.Assert.*;
@@ -22,8 +24,8 @@ public class ProductServiceTest {
     @Before
     public void init(){
         productService = new ProductService();
-        price = BigDecimal.valueOf(4.56);
-        discount = BigDecimal.valueOf(0);
+        price = BigDecimal.valueOf(5);
+        discount = BigDecimal.valueOf(50);
         apple = new Product("Apple", price , ProductCategory.FRUIT, discount, "Tasty apple from Belarus");
         banana = new Product("Banana", price, ProductCategory.FRUIT, discount, "Bananas from India");
     }
@@ -52,13 +54,26 @@ public class ProductServiceTest {
         productService.addProduct(banana);
 
         productService.findProductById(3L);
-    }
+     }
 
     @Test
     public void getAllProducts() {
+
     }
 
     @Test
     public void deleteProductById() {
+        productService.addProduct(apple);
+        productService.addProduct(banana);
+
+        productService.deleteProductById(1L);
+
+        assertEquals(1, productService.sizeOfProductList());
+    }
+
+    @Test
+    public void calculatePriceWithDiscount() {
+        assertEquals(BigDecimal.valueOf(2.5), productService.calculatePriceWithDiscount(BigDecimal.valueOf(5), BigDecimal.valueOf(50)));
+
     }
 }
