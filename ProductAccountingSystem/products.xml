@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<products>
+    <product>
+        <name>Apple</name>
+        <id>1</id>
+        <price>5</price>
+        <category>FRUIT</category>
+        <discount>50</discount>
+        <description>Apple from Africa</description>
+    </product>
+    <product>
+        <name>Milk</name>
+        <id>3</id>
+        <price>1.35</price>
+        <category>DAIRY</category>
+        <discount>10</discount>
+        <description>Milk without laktoza</description>
+    </product>
+</products>

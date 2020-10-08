@@ -1,45 +1,69 @@
 package by.bntu.fitr.poisit.lytkina.service;
 
 import by.bntu.fitr.poisit.lytkina.ProductCategory;
+import by.bntu.fitr.poisit.lytkina.Products;
 import by.bntu.fitr.poisit.lytkina.bean.Product;
 import by.bntu.fitr.poisit.lytkina.exceptions.ProductAccountingSystemException;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.xml.bind.JAXBException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.regex.PatternSyntaxException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-public class ProductServiceTest {
+public class ProductServiceTest  {
 
     ProductService productService;
     Product apple;
     Product banana;
+    Product tomato;
     BigDecimal price;
     BigDecimal discount;
+    Products products;
 
     @Before
     public void init(){
         productService = new ProductService();
         price = BigDecimal.valueOf(5);
         discount = BigDecimal.valueOf(50);
-        apple = new Product("Apple", price , ProductCategory.FRUIT, discount, "Tasty apple from Belarus");
-        banana = new Product("Banana", price, ProductCategory.FRUIT, discount, "Bananas from India");
+        apple = new Product.ProductBuilder()
+                .setName("Apple")
+                .setPrice(price)
+                .setCategory(ProductCategory.FRUIT)
+                .setDiscount(discount)
+                .setDescription("Apple from Africa")
+                .build();
+        banana = new Product.ProductBuilder()
+                .setName("Banana")
+                .setPrice(price)
+                .setCategory(ProductCategory.FRUIT)
+                .setDiscount(discount)
+                .setDescription("Bananas from India")
+                .build();
+        tomato = new Product.ProductBuilder()
+                .setName("Tomato")
+                .setPrice(price)
+                .setCategory(ProductCategory.VEGETABLES)
+                .setDiscount(discount)
+                .setDescription("Red tomato from Pinsk")
+                .build();
+        products = new Products();
+        products.setProducts(new ArrayList<Product>());
+        products.getProducts().add(apple);
+        products.getProducts().add(banana);
     }
 
     @Test
-    public void addProduct() {
+    public void addProduct() throws JAXBException, IOException {
 
-        productService.addProduct(apple);
         productService.addProduct(banana);
-        assertEquals(2, productService.sizeOfProductList());
     }
 
     @Test
-    public void findProductById() {
+    public void findProductById() throws JAXBException, IOException {
         productService.addProduct(apple);
         productService.addProduct(banana);
 
@@ -49,7 +73,7 @@ public class ProductServiceTest {
     }
 
     @Test(expected = ProductAccountingSystemException.class)
-    public void findProductByIdThrowException() {
+    public void findProductByIdThrowException() throws JAXBException, IOException {
         productService.addProduct(apple);
         productService.addProduct(banana);
 
@@ -57,12 +81,15 @@ public class ProductServiceTest {
      }
 
     @Test
-    public void getAllProducts() {
-
+    public void getAllProducts() throws JAXBException {
+        products = productService.getAllProducts();
+        for (Product product : products.getProducts()){
+            System.out.println(product.toString());
+        }
     }
 
     @Test
-    public void deleteProductById() {
+    public void deleteProductById() throws JAXBException, IOException {
         productService.addProduct(apple);
         productService.addProduct(banana);
 
@@ -75,5 +102,15 @@ public class ProductServiceTest {
     public void calculatePriceWithDiscount() {
         assertEquals(BigDecimal.valueOf(2.5), productService.calculatePriceWithDiscount(BigDecimal.valueOf(5), BigDecimal.valueOf(50)));
 
+    }
+
+    @Test
+    public void marshaling() throws JAXBException {
+        productService.marshaling(products);
+    }
+
+    @Test
+    public void unMarshaling() throws JAXBException {
+        productService.unMarshaling();
     }
 }

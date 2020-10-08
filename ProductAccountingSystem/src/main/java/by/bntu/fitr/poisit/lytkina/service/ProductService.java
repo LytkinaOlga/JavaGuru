@@ -1,34 +1,63 @@
 package by.bntu.fitr.poisit.lytkina.service;
 
-import by.bntu.fitr.poisit.lytkina.App;
+import by.bntu.fitr.poisit.lytkina.Products;
 import by.bntu.fitr.poisit.lytkina.bean.Product;
 import by.bntu.fitr.poisit.lytkina.exceptions.ProductAccountingSystemException;
 import by.bntu.fitr.poisit.lytkina.interfaces.ProductServiceI;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class ProductService implements ProductServiceI {
 
-    private ArrayList<Product> products;
-    private static Long INCREMENT_ID = 0L;
+    private Products products;
+    private static Long INCREMENT_ID = 1L;
+    private static File file = new File("products.xml");
+    private static JAXBContext context;
+
+    static {
+        try {
+            context = JAXBContext.newInstance(Product.class);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
 
     public ProductService() {
-        this.products = new ArrayList<Product>();
+
+        this.products = new Products();
+        products.setProducts(new ArrayList<Product>());
+
     }
 
     @Override
-    public void addProduct(Product product) {
+    public void addProduct(Product product) throws JAXBException, IOException {
+        products = new Products();
+        if (file.length() != 0){
 
-        product.setId(INCREMENT_ID);
-        products.add(product);
-        INCREMENT_ID++;
+            products = unMarshaling();
+            INCREMENT_ID = (Long)(products.getProducts().size() + 0L);
+        }else{
+            products.setProducts(new ArrayList<Product>());
+            INCREMENT_ID = 0L;
+        }
+
+        product.setId(++INCREMENT_ID);
+
+        products.getProducts().add(product);
+        marshaling(products);
     }
 
     @Override
-    public Product findProductById(Long id) {
+    public Product findProductById(Long id) throws JAXBException {
         boolean flag = true;
-        for (Product product:products) {
+        products = unMarshaling();
+        for (Product product:products.getProducts()) {
             if (product.getId() == id){
                 flag = true;
                 return product;
@@ -42,19 +71,19 @@ public class ProductService implements ProductServiceI {
     }
 
     @Override
-    public void getAllProducts() {
-        for (Product product:products ) {
-            App.log.info("{}", product);
-        }
+    public Products getAllProducts() throws JAXBException {
+        products = unMarshaling();
+        return products;
     }
 
     @Override
-    public void deleteProductById(Long id) {
+    public void deleteProductById(Long id) throws JAXBException {
         boolean flag = true;
-        for (Product product:products) {
+        products = unMarshaling();
+        for (Product product:products.getProducts()) {
             if (product.getId() == id){
                 flag = true;
-                products.remove(product);
+                products.getProducts().remove(product);
                 break;
             }
             else flag = false;
@@ -62,15 +91,20 @@ public class ProductService implements ProductServiceI {
         if (!flag){
             throw new ProductAccountingSystemException("Id not found");
         }
+        if (file.exists()) {
+            file.delete();
+            File file = new File ("products.xml");
+            marshaling(products);
+        }
     }
 
     @Override
     public long sizeOfProductList() {
-        return products.size();
+        return products.getProducts().size();
     }
 
     public boolean checkListIsEmpty(){
-        return products.isEmpty();
+        return products.getProducts().isEmpty();
     }
 
     public BigDecimal calculatePriceWithDiscount(BigDecimal price, BigDecimal discount){
@@ -79,5 +113,23 @@ public class ProductService implements ProductServiceI {
         }else {
             return price.subtract(price.multiply(discount.divide(BigDecimal.valueOf(100L))));
         }
+    }
+    public void marshaling(Products products) throws JAXBException
+    {
+        JAXBContext jaxbContext = JAXBContext.newInstance(Products.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+        jaxbMarshaller.marshal(products, file);
+    }
+    public Products unMarshaling() throws JAXBException
+    {
+        JAXBContext jaxbContext = JAXBContext.newInstance(Products.class);
+        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+
+        Products productsList = (Products) jaxbUnmarshaller.unmarshal( file );
+
+        return productsList;
     }
 }

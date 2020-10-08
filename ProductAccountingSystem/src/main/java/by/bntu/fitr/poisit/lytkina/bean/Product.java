@@ -4,8 +4,15 @@ import by.bntu.fitr.poisit.lytkina.ProductCategory;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+@XmlRootElement(name = "product")
+@XmlAccessorType(XmlAccessType.FIELD)
 
 public class Product {
+
     private String name;
     private Long id;
     private BigDecimal price;
@@ -13,12 +20,16 @@ public class Product {
     private BigDecimal discount;
     private String description;
 
-    public Product(String name, BigDecimal price, ProductCategory category, BigDecimal discount, String description) {
-        this.name = name;
-        this.price = price;
-        this.category = category;
-        this.discount = discount;
-        this.description = description;
+    public Product(){
+        // необходим для маршаллизации/демаршалиизации XML
+    }
+
+    public Product(ProductBuilder productBuilder) {
+        this.name = productBuilder.name;
+        this.price = productBuilder.price;
+        this.category = productBuilder.category;
+        this.discount = productBuilder.discount;
+        this.description = productBuilder.description;
     }
 
     public String getName() {
@@ -97,6 +108,47 @@ public class Product {
                 ", discount=" + discount +
                 ", description='" + description + '\'' +
                 '}';
+    }
+    public static class ProductBuilder{
+        private String name;
+        private Long id;
+        private BigDecimal price;
+        private ProductCategory category;
+        private BigDecimal discount;
+        private String description;
+
+        public ProductBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+        public ProductBuilder setId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public ProductBuilder setPrice(BigDecimal price) {
+            this.price = price;
+            return this;
+        }
+
+
+        public ProductBuilder setCategory(ProductCategory category) {
+            this.category = category;
+            return this;
+        }
+
+        public ProductBuilder setDiscount(BigDecimal discount) {
+            this.discount = discount;
+            return this;
+        }
+
+        public ProductBuilder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+        public Product build(){
+            return new Product(this);
+        }
     }
 }
 
