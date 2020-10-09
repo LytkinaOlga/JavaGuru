@@ -2,20 +2,13 @@ package by.bntu.fitr.poisit.lytkina;
 
 import by.bntu.fitr.poisit.lytkina.bean.Product;
 import by.bntu.fitr.poisit.lytkina.service.ProductService;
-import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import java.io.*;
-import java.math.BigDecimal;
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class App {
@@ -38,7 +31,10 @@ public class App {
                     "2 - get all products\n" +
                     "3 - find product by id\n" +
                     "4 - delete product by id\n" +
-                    "5 - exit\n" +
+                    "5 - sort by name\n" +
+                    "6 - sort by price (up)\n" +
+                    "7 - sort by price (down)\n" +
+                    "8 - exit\n" +
                     "Input your choice : ");
             choice = scanner.nextInt();
             switch (choice) {
@@ -49,18 +45,18 @@ public class App {
                         String name = scannerNextLine.nextLine();
 
                         System.out.println("Input product price: ");
-                        BigDecimal price = scanner.nextBigDecimal();
+                        double price = scanner.nextDouble();
 
                         System.out.println("Input product category (FRUIT, BAKERY, DAIRY, VEGETABLES, DRINKS, MEAT, HOUSEHOLD, CEREALS): ");
                         String productCategory = scannerNextLine.nextLine();
 
                         System.out.println("Input product discount(%): ");
-                        BigDecimal discount = scanner.nextBigDecimal();
+                        double discount = scanner.nextDouble();
 
                         System.out.println("Input product description: ");
                         String description = scannerNextLine.nextLine();
 
-                        BigDecimal priceWithDiscount = productService.calculatePriceWithDiscount(price, discount);
+                        double priceWithDiscount = productService.calculatePriceWithDiscount(price, discount);
 
                         Product product = new Product.ProductBuilder()
                                 .setName(name)
@@ -92,6 +88,16 @@ public class App {
                     System.out.println("Product is deleted");
                     break;
                 case 5:
+                    products = productService.unMarshaling();
+                    Collections.sort(products.getProducts(), productService.BY_NAME);
+                    break;
+                case 6:
+                    products = productService.unMarshaling();
+                    productService.sortByName(products);
+                    break;
+                case 7:
+                    break;
+                case 8:
                     exit = true;
                     break;
                 default:

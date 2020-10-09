@@ -11,6 +11,8 @@ import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import static org.junit.Assert.assertEquals;
 
@@ -20,15 +22,15 @@ public class ProductServiceTest  {
     Product apple;
     Product banana;
     Product tomato;
-    BigDecimal price;
-    BigDecimal discount;
+    double price;
+    double discount;
     Products products;
 
     @Before
     public void init(){
         productService = new ProductService();
-        price = BigDecimal.valueOf(5);
-        discount = BigDecimal.valueOf(50);
+        price = 5;
+        discount = 50;
         apple = new Product.ProductBuilder()
                 .setName("Apple")
                 .setPrice(price)
@@ -100,7 +102,7 @@ public class ProductServiceTest  {
 
     @Test
     public void calculatePriceWithDiscount() {
-        assertEquals(BigDecimal.valueOf(2.5), productService.calculatePriceWithDiscount(BigDecimal.valueOf(5), BigDecimal.valueOf(50)));
+        assertEquals(2,5, productService.calculatePriceWithDiscount(5, 50));
 
     }
 
@@ -112,5 +114,18 @@ public class ProductServiceTest  {
     @Test
     public void unMarshaling() throws JAXBException {
         productService.unMarshaling();
+    }
+
+    @Test
+    public void compareByPrice() throws JAXBException {
+        Products prod = productService.getAllProducts();
+        productService.sortByIncreaseAge(prod);
+
+    }
+
+    @Test
+    public void sortByName() throws JAXBException {
+        Products prod = productService.getAllProducts();
+        productService.sortByName(prod);
     }
 }

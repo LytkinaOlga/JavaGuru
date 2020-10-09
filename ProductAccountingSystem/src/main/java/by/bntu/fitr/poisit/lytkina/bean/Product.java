@@ -15,9 +15,9 @@ public class Product {
 
     private String name;
     private Long id;
-    private BigDecimal price;
+    private double price;
     private ProductCategory category;
-    private BigDecimal discount;
+    private double discount;
     private String description;
 
     public Product(){
@@ -48,11 +48,11 @@ public class Product {
         this.id = id;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -64,11 +64,11 @@ public class Product {
         this.category = category;
     }
 
-    public BigDecimal getDiscount() {
+    public double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(BigDecimal discount) {
+    public void setDiscount(double discount) {
         this.discount = discount;
     }
 
@@ -112,9 +112,9 @@ public class Product {
     public static class ProductBuilder{
         private String name;
         private Long id;
-        private BigDecimal price;
+        private double price;
         private ProductCategory category;
-        private BigDecimal discount;
+        private double discount;
         private String description;
 
         public ProductBuilder setName(String name) {
@@ -126,7 +126,7 @@ public class Product {
             return this;
         }
 
-        public ProductBuilder setPrice(BigDecimal price) {
+        public ProductBuilder setPrice(double price) {
             this.price = price;
             return this;
         }
@@ -137,7 +137,7 @@ public class Product {
             return this;
         }
 
-        public ProductBuilder setDiscount(BigDecimal discount) {
+        public ProductBuilder setDiscount(double discount) {
             this.discount = discount;
             return this;
         }

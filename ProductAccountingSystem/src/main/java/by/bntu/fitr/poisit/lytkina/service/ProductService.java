@@ -9,9 +9,10 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import java.io.*;
-import java.math.BigDecimal;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class ProductService implements ProductServiceI {
 
@@ -19,6 +20,8 @@ public class ProductService implements ProductServiceI {
     private static Long INCREMENT_ID = 1L;
     private static File file = new File("products.xml");
     private static JAXBContext context;
+    public static Comparator<Product> BY_NAME;
+    public static Comparator<Product> BY_PRICE;
 
     static {
         try {
@@ -26,6 +29,22 @@ public class ProductService implements ProductServiceI {
         } catch (JAXBException e) {
             e.printStackTrace();
         }
+        BY_NAME = new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        };
+        BY_PRICE = new Comparator<Product>() {
+            @Override
+            public int compare(Product o1, Product o2) {
+                double delta = o1.getPrice() - o2.getPrice();
+                if(delta > 0) return 1;
+                if(delta < 0) return -1;
+                return 0;
+            }
+        };
+
     }
 
     public ProductService() {
@@ -41,7 +60,8 @@ public class ProductService implements ProductServiceI {
         if (file.length() != 0){
 
             products = unMarshaling();
-            INCREMENT_ID = (Long)(products.getProducts().size() + 0L);
+            Product lastProductInList = products.getProducts().get(products.getProducts().size() - 1);
+            INCREMENT_ID = lastProductInList.getId();
         }else{
             products.setProducts(new ArrayList<Product>());
             INCREMENT_ID = 0L;
@@ -107,11 +127,11 @@ public class ProductService implements ProductServiceI {
         return products.getProducts().isEmpty();
     }
 
-    public BigDecimal calculatePriceWithDiscount(BigDecimal price, BigDecimal discount){
-        if (discount.equals(0)){
+    public double calculatePriceWithDiscount(double price, double discount){
+        if (discount == 0){
             return price;
         }else {
-            return price.subtract(price.multiply(discount.divide(BigDecimal.valueOf(100L))));
+            return price - (price * (discount / 100));
         }
     }
     public void marshaling(Products products) throws JAXBException
@@ -132,4 +152,18 @@ public class ProductService implements ProductServiceI {
 
         return productsList;
     }
+    public void sortByName(Products products){
+        products.getProducts().sort(Comparator.comparing(product -> product.getName()));
+        for (Product prod:products.getProducts()) {
+            System.out.println(prod.toString());
+        }
+    }
+    public void sortByIncreaseAge(Products products){
+        products.getProducts().sort(BY_PRICE);
+        for (Product prod:products.getProducts()) {
+            System.out.println(prod.toString());
+        }
+    }
+
+
 }

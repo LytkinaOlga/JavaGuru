@@ -3,17 +3,33 @@
     <product>
         <name>Apple</name>
         <id>1</id>
-        <price>5</price>
+        <price>5.0</price>
         <category>FRUIT</category>
-        <discount>50</discount>
+        <discount>50.0</discount>
         <description>Apple from Africa</description>
     </product>
     <product>
-        <name>Milk</name>
+        <name>Eggs</name>
         <id>3</id>
-        <price>1.35</price>
+        <price>2.3</price>
+        <category>HOUSEHOLD</category>
+        <discount>0.0</discount>
+        <description>a dozen of eggs</description>
+    </product>
+    <product>
+        <name>Dark bread</name>
+        <id>4</id>
+        <price>1.62</price>
+        <category>BAKERY</category>
+        <discount>10.0</discount>
+        <description>Fresh bread with seeds</description>
+    </product>
+    <product>
+        <name>Cheese</name>
+        <id>5</id>
+        <price>3.5</price>
         <category>DAIRY</category>
-        <discount>10</discount>
-        <description>Milk without laktoza</description>
+        <discount>0.0</discount>
+        <description>200 g of cheese</description>
     </product>
 </products>
