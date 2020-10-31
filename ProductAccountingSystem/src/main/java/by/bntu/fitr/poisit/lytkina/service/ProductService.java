@@ -20,7 +20,6 @@ public class ProductService implements ProductServiceI {
     private static Long INCREMENT_ID = 1L;
     private static File file = new File("products.xml");
     private static JAXBContext context;
-    public static Comparator<Product> BY_NAME;
     public static Comparator<Product> BY_PRICE;
 
     static {
@@ -29,20 +28,12 @@ public class ProductService implements ProductServiceI {
         } catch (JAXBException e) {
             e.printStackTrace();
         }
-        BY_NAME = new Comparator<Product>() {
-            @Override
-            public int compare(Product o1, Product o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        };
-        BY_PRICE = new Comparator<Product>() {
-            @Override
-            public int compare(Product o1, Product o2) {
-                double delta = o1.getPrice() - o2.getPrice();
-                if(delta > 0) return 1;
-                if(delta < 0) return -1;
-                return 0;
-            }
+
+        BY_PRICE = (o1, o2) -> {
+            double delta = o1.getPrice() - o2.getPrice();
+            if(delta > 0) return 1;
+            if(delta < 0) return -1;
+            return 0;
         };
 
     }

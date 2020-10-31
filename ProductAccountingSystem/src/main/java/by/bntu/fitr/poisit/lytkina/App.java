@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Scanner;
 
 public class App {
@@ -25,54 +24,52 @@ public class App {
         System.out.println("Welcome to product accounting system");
         boolean exit = false;
         int choice;
-
         while (!exit) {
             System.out.println("1 - add product\n" +
                     "2 - get all products\n" +
                     "3 - find product by id\n" +
                     "4 - delete product by id\n" +
                     "5 - sort by name\n" +
-                    "6 - sort by price (up)\n" +
-                    "7 - sort by price (down)\n" +
-                    "8 - exit\n" +
+                    "6 - sort by price\n" +
+                    "7 - exit\n" +
                     "Input your choice : ");
             choice = scanner.nextInt();
             switch (choice) {
                 case 1:
 
-                        System.out.println("--------------Adding product-------------");
-                        System.out.println("Input product name: ");
-                        String name = scannerNextLine.nextLine();
+                    System.out.println("--------------Adding product-------------");
+                    System.out.println("Input product name: ");
+                    String name = scannerNextLine.nextLine();
 
-                        System.out.println("Input product price: ");
-                        double price = scanner.nextDouble();
+                    System.out.println("Input product price: ");
+                    double price = scanner.nextDouble();
 
-                        System.out.println("Input product category (FRUIT, BAKERY, DAIRY, VEGETABLES, DRINKS, MEAT, HOUSEHOLD, CEREALS): ");
-                        String productCategory = scannerNextLine.nextLine();
+                    System.out.println("Input product category (FRUIT, BAKERY, DAIRY, VEGETABLES, DRINKS, MEAT, HOUSEHOLD, CEREALS): ");
+                    String productCategory = scannerNextLine.nextLine();
 
-                        System.out.println("Input product discount(%): ");
-                        double discount = scanner.nextDouble();
+                    System.out.println("Input product discount(%): ");
+                    double discount = scanner.nextDouble();
 
-                        System.out.println("Input product description: ");
-                        String description = scannerNextLine.nextLine();
+                    System.out.println("Input product description: ");
+                    String description = scannerNextLine.nextLine();
 
-                        double priceWithDiscount = productService.calculatePriceWithDiscount(price, discount);
+                    double priceWithDiscount = productService.calculatePriceWithDiscount(price, discount);
 
-                        Product product = new Product.ProductBuilder()
-                                .setName(name)
-                                .setPrice(priceWithDiscount)
-                                .setCategory(ProductCategory.valueOf(productCategory))
-                                .setDiscount(discount)
-                                .setDescription(description)
-                                .build();
+                    Product product = new Product.ProductBuilder()
+                            .setName(name)
+                            .setPrice(priceWithDiscount)
+                            .setCategory(ProductCategory.valueOf(productCategory))
+                            .setDiscount(discount)
+                            .setDescription(description)
+                            .build();
 
-                        productService.addProduct(product);
+                    productService.addProduct(product);
                     break;
                 case 2:
-                        products = productService.getAllProducts();
-                        for (Product prod : products.getProducts()){
-                            System.out.println(prod.toString());
-                        }
+                    products = productService.getAllProducts();
+                    for (Product prod : products.getProducts()) {
+                        System.out.println(prod.toString());
+                    }
                     break;
                 case 3:
                     System.out.println("Input id: ");
@@ -89,15 +86,13 @@ public class App {
                     break;
                 case 5:
                     products = productService.unMarshaling();
-                    Collections.sort(products.getProducts(), productService.BY_NAME);
+                    productService.sortByName(products);
                     break;
                 case 6:
                     products = productService.unMarshaling();
-                    productService.sortByName(products);
+                    productService.sortByIncreaseAge(products);
                     break;
                 case 7:
-                    break;
-                case 8:
                     exit = true;
                     break;
                 default:
@@ -106,9 +101,6 @@ public class App {
         }
 
 
-
-
     }
 }
-
 

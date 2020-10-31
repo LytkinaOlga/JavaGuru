@@ -9,10 +9,7 @@ import org.junit.Test;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import static org.junit.Assert.assertEquals;
 
@@ -128,4 +125,5 @@ public class ProductServiceTest  {
         Products prod = productService.getAllProducts();
         productService.sortByName(prod);
     }
+
 }

@@ -2,11 +2,10 @@ package by.bntu.fitr.poisit.lytkina.bean;
 
 import by.bntu.fitr.poisit.lytkina.ProductCategory;
 
-import java.math.BigDecimal;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
-import javax.xml.bind.annotation.*;
-import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlRootElement(name = "product")
 @XmlAccessorType(XmlAccessType.FIELD)
