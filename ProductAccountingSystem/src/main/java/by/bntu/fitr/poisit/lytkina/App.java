@@ -4,6 +4,8 @@ import by.bntu.fitr.poisit.lytkina.bean.Product;
 import by.bntu.fitr.poisit.lytkina.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.xml.bind.JAXBException;
 import java.io.File;
