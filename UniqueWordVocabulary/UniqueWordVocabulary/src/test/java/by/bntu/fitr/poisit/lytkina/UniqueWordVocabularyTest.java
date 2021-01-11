@@ -20,6 +20,7 @@ public class UniqueWordVocabularyTest extends TestCase {
         uniqueWordVocabulary.addWord(firstWord);
         uniqueWordVocabulary.addWord(secondWord);
         int expected = 2;
+
         int actual = uniqueWordVocabulary.getWordsCount();
         assertEquals(expected, actual);
     }
