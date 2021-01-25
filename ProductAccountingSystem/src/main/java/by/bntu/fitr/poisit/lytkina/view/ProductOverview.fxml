@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--не запускается start метод-->
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.bntu.fitr.poisit.lytkina.view.ProductOverview">
+   <children>
+      <TableView layoutX="92.0" layoutY="163.0" prefHeight="392.0" prefWidth="516.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="Product " />
+          <TableColumn prefWidth="75.0" text="id" />
+            <TableColumn prefWidth="75.0" text="price" />
+            <TableColumn prefWidth="75.0" text="category" />
+            <TableColumn prefWidth="75.0" text="discount" />
+            <TableColumn prefWidth="140.0" text="description" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <Button layoutX="76.0" layoutY="89.0" mnemonicParsing="false" text="Add product" />
+      <Button layoutX="175.0" layoutY="89.0" mnemonicParsing="false" text="Sort by name" />
+      <Button layoutX="275.0" layoutY="89.0" mnemonicParsing="false" text="Sort by price" />
+      <Button layoutX="370.0" layoutY="89.0" mnemonicParsing="false" text="Delete product by id" />
+      <Button layoutX="510.0" layoutY="89.0" mnemonicParsing="false" text="Find product by id" />
+      <Label layoutX="207.0" layoutY="26.0" text="Product Accounting System">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
